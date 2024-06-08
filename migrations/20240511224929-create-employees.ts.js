@@ -9,11 +9,27 @@ module.exports = {
       },
       FirstName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       LastName: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      Email: {
+        type: DataTypes.STRING,
         allowNull: false,
+      },
+      AvatarUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      PassHash: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      RefreshToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       CreatedAt: {
         allowNull: false,

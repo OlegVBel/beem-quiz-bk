@@ -45,6 +45,43 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Migrations
+
+```bash
+# generate migration
+npx sequelize-cli migration:generate --name migration-example
+
+# run migrations
+npx sequelize-cli db:migrate
+
+# undoing Migrations
+npx sequelize-cli db:migrate:undo
+```
+
+## Nest CLI
+```bash
+# generate nest module
+nest g module
+
+# generate nest controller
+nest g controller
+
+# generate nest service
+nest g service
+```
+
+## Run
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
 ## Test
 
 ```bash

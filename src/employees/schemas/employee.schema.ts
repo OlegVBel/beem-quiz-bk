@@ -23,7 +23,7 @@ export class Employee extends Model<Employee> {
   Email: string;
 
   @Column({ allowNull: true })
-  Avatar: string | null;
+  AvatarUrl: string | null;
 
   @CreatedAt
   @Column({ allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') })
