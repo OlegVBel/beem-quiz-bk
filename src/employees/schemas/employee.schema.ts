@@ -1,4 +1,5 @@
-import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model } from 'sequelize-typescript';
+import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model, ForeignKey, HasOne } from 'sequelize-typescript';
+import { File } from '../../file/schemas/file.schema';
 
 @Table({ tableName: 'Employees', timestamps: true })
 export class Employee extends Model<Employee> {
@@ -23,7 +24,14 @@ export class Employee extends Model<Employee> {
   Email: string;
 
   @Column({ allowNull: true })
-  AvatarUrl: string | null;
+  Notes: string | null;
+
+  @ForeignKey(() => File)
+  @Column({ allowNull: true })
+  AvatarId: number;
+
+  @HasOne(() => File, 'AvatarId')
+  Avatar: File;
 
   @CreatedAt
   @Column({ allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') })

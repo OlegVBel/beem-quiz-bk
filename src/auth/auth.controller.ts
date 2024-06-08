@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthService } from './auth.service';
 import { CreateEmployeeDto } from '../employees/dto/create-employee.dto';
@@ -32,9 +32,11 @@ export class AuthController {
     return this.authService.refreshToken(dto);
   }
 
+  @Get('user')
   @UseGuards(JwtAuthGuard)
-  @Post('test')
-  test() {
-    return 'test';
+  async getUser(@Req() req: Request) {
+    const authHeader = req.headers['authorization'] as string;
+    const token = authHeader.split(' ')[1];
+    return this.authService.getUserByToken(token);
   }
 }

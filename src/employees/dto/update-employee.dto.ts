@@ -8,8 +8,8 @@ export class UpdateEmployeeDto {
   readonly lastName: string;
 
   @IsString()
-  readonly dateOfBirth: Date;
+  readonly notes: string;
 
   @IsString()
-  readonly notes: string;
+  readonly email: string;
 }
