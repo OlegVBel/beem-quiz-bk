@@ -5,6 +5,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { hashPassword } from '../../helpers/hash';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { GetEmployeeDto } from './dto/get-employee.dto';
+import { File } from '../file/schemas/file.schema';
 
 @Injectable()
 export class EmployeesService {
@@ -31,9 +32,10 @@ export class EmployeesService {
     const employee = await this.employeeModel.findOne({
       where: { Email: email },
       include: {
-        association: Employee.associations.avatar,
+        model: File,
         attributes: ['Url'],
         required: false,
+        as: 'Avatar',
       },
     });
     if (!employee) {

@@ -64,11 +64,13 @@ export class AuthService {
 
   async getUserByToken(token: string): Promise<GetEmployeeDto> {
     try {
-      const { email } = this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+      const decode = this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+      const email = decode.user;
       const employee = await this.employeeService.findByEmail(email);
       if (!employee) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
+      delete employee.password;
       return employee;
     } catch (error) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
