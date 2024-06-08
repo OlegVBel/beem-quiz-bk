@@ -33,17 +33,7 @@ export class EmployeesService {
     return employee;
   }
 
-  async findByRefreshTokenId(tokenId: string) {
-    const employee = this.employeeModel.findOne({ where: { RefreshToken: tokenId } });
-    if (!employee) {
-      throw new HttpException('Employee with this token not found', HttpStatus.NOT_FOUND);
-    }
-    return employee;
-  }
-  async removeRefreshToken(email: string) {
-    await this.employeeModel.update({ RefreshToken: '' }, { where: { Email: email } });
-  }
-  async saveRefreshToken(email: string, tokenId: string) {
-    await this.employeeModel.update({ RefreshToken: tokenId }, { where: { Email: email } });
+  async saveEmployeeToken(email: string, token: string) {
+    await this.employeeModel.update({ RefreshToken: token }, { where: { Email: email } });
   }
 }

@@ -5,6 +5,8 @@ import { LoginEmployeeDto } from './dto/login-employee.dto';
 import { comparePassword } from '../../helpers/hash';
 import { TokenService } from '../token/token.service';
 import { AuthUserResponseDto } from './response/auth-user.dto';
+import { LogoutEmployeeDto } from './dto/logout-employee.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -38,9 +40,16 @@ export class AuthService {
     };
   }
 
-  // async refreshToken(payload: any) {}
+  async refreshToken(dto: RefreshTokenDto) {
+    const employee = await this.employeeService.findByEmail(dto.email);
+    if (!employee) {
+      throw new HttpException('Employee with this token not found', HttpStatus.NOT_FOUND);
+    }
+    const newToken = await this.tokenService.generateJwtToken(employee.Email);
+    await this.employeeService.saveEmployeeToken(employee.Email, newToken);
+  }
 
-  async logout(payload: any) {
-    return this.employeeService.removeRefreshToken(payload.email);
+  async logout(dto: LogoutEmployeeDto) {
+    return this.employeeService.saveEmployeeToken(dto.email, '');
   }
 }

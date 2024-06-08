@@ -12,4 +12,12 @@ export class TokenService {
       expiresIn: process.env.JWT_EXPIRATION,
     });
   }
+
+  async generateRefreshToken(user) {
+    const payload = { user };
+    return this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.JWT_REFRESH_EXPIRATION,
+    });
+  }
 }
