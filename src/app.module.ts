@@ -6,6 +6,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { DatabaseService } from './database/database.service';
 import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TokenModule } from './token/token.module';
     EmployeesModule,
     AuthModule,
     TokenModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseService],

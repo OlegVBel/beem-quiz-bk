@@ -20,7 +20,13 @@ export class AuthService {
     if (existUser) {
       throw new HttpException('Employee with this email already exists', HttpStatus.BAD_REQUEST);
     }
-    return this.employeeService.createEmployee(dto);
+    await this.employeeService.createEmployee(dto);
+    const token = await this.tokenService.generateJwtToken(dto.email);
+    await this.employeeService.saveEmployeeToken(dto.email, token);
+    return {
+      Email: dto.email,
+      Token: token,
+    };
   }
 
   async login(dto: LoginEmployeeDto): Promise<AuthUserResponseDto> {
@@ -32,9 +38,9 @@ export class AuthService {
       throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
     }
     const token = await this.tokenService.generateJwtToken(dto.email);
+    await this.employeeService.saveEmployeeToken(dto.email, token);
+
     return {
-      FirstName: employee.FirstName,
-      LastName: employee.LastName,
       Email: employee.Email,
       Token: token,
     };

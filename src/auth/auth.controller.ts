@@ -32,12 +32,6 @@ export class AuthController {
     return this.authService.refreshToken(dto);
   }
 
-  //
-  // @Get('user')
-  // async getUser(@Req() req) {
-  //   return this.authService.getUser(req.user);
-  // }
-
   @UseGuards(JwtAuthGuard)
   @Post('test')
   test() {
