@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'prettier',
   ],
   root: true,
   env: {
@@ -19,12 +20,19 @@ module.exports = {
   rules: {
     // indent: ['error', 2],
     semi: ['error', 'always'],
-    'linebreak-style': [0, 'unix'],
     'no-trailing-spaces': ['error', { skipBlankLines: true }],
-    'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
+    'space-before-function-paren': ['error', {
+      anonymous: 'always',
+      named: 'never',
+      asyncArrow: 'always',
+    }],
     'no-inner-declarations': ['error', 'both'],
     'array-bracket-newline': ['error', 'consistent'],
-    'newline-per-chained-call': ['error', { 'ignoreChainWithDepth': 2 }],
+    'no-console': process.env.NODE_ENV === 'production' ? ['error', { allow: ['warn', 'error'] }] : 'off',
+    'comma-dangle': ['error', 'always-multiline'],
+    // 'array-element-newline': ['error', 'always'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

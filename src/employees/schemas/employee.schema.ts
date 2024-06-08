@@ -1,14 +1,4 @@
-import {
-  Column,
-  Table,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
-  PrimaryKey,
-  AutoIncrement,
-  Sequelize,
-  Model,
-} from 'sequelize-typescript';
+import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model } from 'sequelize-typescript';
 
 @Table({ tableName: 'Employees', timestamps: true })
 export class Employee extends Model<Employee> {
@@ -17,32 +7,33 @@ export class Employee extends Model<Employee> {
   @Column
   Id: number;
 
-  @Column({
-    allowNull: false,
-  })
+  @Column({ allowNull: true })
   FirstName: string;
 
-  @Column({
-    allowNull: false,
-  })
+  @Column({ allowNull: true })
   LastName: string;
 
+  @Column({ allowNull: false })
+  PassHash: string | null;
+
+  @Column({ allowNull: true })
+  RefreshToken: string | null;
+
+  @Column({ allowNull: false })
+  Email: string;
+
+  @Column({ allowNull: true })
+  Avatar: string | null;
+
   @CreatedAt
-  @Column({
-    allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-  })
+  @Column({ allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') })
   CreatedAt: Date;
 
   @UpdatedAt
-  @Column({
-    allowNull: true,
-  })
+  @Column({ allowNull: true })
   UpdatedAt: Date | null;
 
   @DeletedAt
-  @Column({
-    allowNull: true,
-  })
+  @Column({ allowNull: true })
   DeletedAt: Date | null;
 }

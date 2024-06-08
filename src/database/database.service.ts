@@ -11,9 +11,7 @@ export class DatabaseService implements OnModuleInit {
 
   async onModuleInit(): Promise<void> {
     try {
-      const { stdout, stderr } = await execAsync(
-        'npx sequelize-cli db:migrate',
-      );
+      const { stdout, stderr } = await execAsync('npx sequelize-cli db:migrate');
       console.log('Migration output:', stdout);
       if (stderr) {
         console.error('Migration error:', stderr);

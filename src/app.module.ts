@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { EmployeesModule } from './employees/employees.module';
 import { DatabaseService } from './database/database.service';
-import { GoogleStrategy } from './auth/strategies/google.strategy';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,8 +22,9 @@ import { GoogleStrategy } from './auth/strategies/google.strategy';
       synchronize: true,
     }),
     EmployeesModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DatabaseService, GoogleStrategy],
+  providers: [AppService, DatabaseService],
 })
 export class AppModule {}
