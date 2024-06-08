@@ -2,7 +2,7 @@ import { IsString } from 'class-validator';
 
 export class FileResponse {
   @IsString()
-  name: string;
+  cipherName: string;
 
   @IsString()
   url: string;
@@ -11,7 +11,7 @@ export class FileResponse {
   mimetype: string;
 
   @IsString()
-  originalname: string;
+  originalName: string;
 
   @IsString()
   size: number;

@@ -56,6 +56,9 @@ npx sequelize-cli db:migrate
 
 # undoing Migrations
 npx sequelize-cli db:migrate:undo
+
+npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+
 ```
 
 ## Nest CLI

@@ -5,10 +5,17 @@ import sharp from 'sharp';
 import { join } from 'path';
 import { access, mkdir, writeFile } from 'fs/promises';
 import { FileResponse } from './response/file-response.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { File } from './schemas/file.schema';
 
 @Injectable()
 export class FileService {
-  async saveFiles(files: MFile[], folder = 'default') {
+  constructor(
+    @InjectModel(File)
+    private fileModel: typeof File,
+  ) {}
+
+  async uploadFiles(files: MFile[], folder = 'default') {
     const uploadFolder = join(__dirname, '..', '..', 'static', folder);
 
     try {
@@ -20,17 +27,17 @@ export class FileService {
     return Promise.all(
       files.map(async (file): Promise<FileResponse> => {
         try {
-          await writeFile(join(uploadFolder, file.originalname), file.buffer);
+          await writeFile(join(uploadFolder, file.cipherName), file.buffer);
         } catch (e) {
           throw new InternalServerErrorException('Error while saving file');
         }
 
         return {
-          url: `/static/${folder}/${file.originalname}`,
-          name: file.originalname,
+          url: `/static/${folder}/${file.cipherName}`,
+          cipherName: file.cipherName,
           mimetype: file.mimetype,
-          originalname: file.originalname,
-          size: file.buffer.byteLength / 1024 / 1024, // in MB
+          originalName: file.originalName,
+          size: file.buffer.byteLength,
         };
       }),
     );
@@ -40,7 +47,7 @@ export class FileService {
     return sharp(fileBuffer).webp().toBuffer();
   }
 
-  async filterFiles(files: MFile[]) {
+  async filterFiles(files: Express.Multer.File[]) {
     return Promise.all(
       files.map(async file => {
         const mimetype = file.mimetype;
@@ -54,23 +61,38 @@ export class FileService {
             const buffer = await this.convertToWebp(file.buffer);
             return new MFile({
               buffer,
-              originalname: `${newName}.webp`,
+              cipherName: `${newName}.webp`,
+              originalName: file.originalname,
               mimetype,
             });
           }
           return new MFile({
             buffer: file.buffer,
-            originalname: `${newName}.svg`,
+            cipherName: `${newName}.svg`,
+            originalName: file.originalname,
             mimetype,
           });
         }
 
         return new MFile({
           buffer: file.buffer,
-          originalname: `${newName}.${type}`,
+          cipherName: `${newName}.${type}`,
+          originalName: file.originalname,
           mimetype,
         });
       }),
+    );
+  }
+
+  async saveFiles(files: FileResponse[]) {
+    return this.fileModel.bulkCreate(
+      files.map(file => ({
+        Url: file.url,
+        CipherName: file.cipherName,
+        Mimetype: file.mimetype,
+        OriginalName: file.originalName,
+        Size: file.size,
+      })),
     );
   }
 }
