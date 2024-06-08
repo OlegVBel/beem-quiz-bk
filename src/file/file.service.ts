@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MFile } from './mfile.class';
 import { v4 } from 'uuid';
-import sharp from 'sharp';
+import * as sharp from 'sharp';
 import { join } from 'path';
 import { access, mkdir, writeFile } from 'fs/promises';
 import { FileResponse } from './response/file-response.dto';
@@ -16,7 +16,7 @@ export class FileService {
   ) {}
 
   async uploadFiles(files: MFile[], folder = 'default') {
-    const uploadFolder = join(__dirname, '..', '..', 'static', folder);
+    const uploadFolder = join(process.cwd(), 'static', folder);
 
     try {
       await access(uploadFolder);

@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Inject, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Inject, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -16,11 +16,11 @@ export class EmployeesController {
   @Post('upload-photo')
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FilesInterceptor('file'))
-  async uploadPhoto(@UploadedFile() file: Express.Multer.File, @Body('email') email: string) {
+  async uploadPhoto(@UploadedFiles() files: Express.Multer.File[], @Query('email') email: string) {
     const employee = await this.employeesService.findByEmail(email);
 
     // save file
-    const [newFile] = await this.fileService.filterFiles([file]);
+    const [newFile] = await this.fileService.filterFiles(files);
     const [fileInfo] = await this.fileService.uploadFiles([newFile], 'avatar');
     const [savedFile] = await this.fileService.saveFiles([fileInfo]);
 

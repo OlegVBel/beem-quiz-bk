@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.refreshToken(dto);
   }
 
-  @Get('user')
+  @Get('employee')
   @UseGuards(JwtAuthGuard)
   async getUser(@Req() req: Request) {
     const authHeader = req.headers['authorization'] as string;

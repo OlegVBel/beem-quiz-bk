@@ -8,7 +8,7 @@ import { File } from './schemas/file.schema';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'static'),
+      rootPath: join(process.cwd(), 'static'),
       serveRoot: '/static',
     }),
     SequelizeModule.forFeature([File]),
