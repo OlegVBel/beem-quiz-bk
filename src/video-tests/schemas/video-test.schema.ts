@@ -15,6 +15,7 @@ import {
 import { File } from '../../file/schemas/file.schema';
 import { Employee } from '../../employees/schemas/employee.schema';
 import { Question } from '../../questions/schemas/question.schema';
+import { Assignes } from '../../assignes/schemas/assignes.schema';
 
 @Table({ tableName: 'VideoTests', timestamps: true })
 export class VideoTest extends Model<VideoTest> {
@@ -67,4 +68,7 @@ export class VideoTest extends Model<VideoTest> {
   @DeletedAt
   @Column({ allowNull: true })
   DeletedAt: Date | null;
+
+  @HasMany(() => Assignes, 'VideoTestId')
+  Assignes: Assignes[];
 }

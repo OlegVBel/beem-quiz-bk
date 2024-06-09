@@ -10,6 +10,7 @@ import { FileModule } from './file/file.module';
 import { VideoTestsModule } from './video-tests/video-tests.module';
 import { QuestionsModule } from './questions/questions.module';
 import { AnswersModule } from './answers/answers.module';
+import { AssignesModule } from './assignes/assignes.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AnswersModule } from './answers/answers.module';
     VideoTestsModule,
     QuestionsModule,
     AnswersModule,
+    AssignesModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseService],

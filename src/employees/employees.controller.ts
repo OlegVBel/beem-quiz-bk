@@ -33,4 +33,12 @@ export class EmployeesController {
   async updateEmployee(@Body() dto: UpdateEmployeeDto) {
     await this.employeesService.updateEmployee(dto);
   }
+
+  @Post(':email')
+  async getByEmail(@Query('email') email: string) {
+    const employee = await this.employeesService.findByEmail(email);
+    return {
+      Id: employee.id,
+    };
+  }
 }
