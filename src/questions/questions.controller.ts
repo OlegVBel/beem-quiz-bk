@@ -17,14 +17,14 @@ export class QuestionsController {
     return this.questionsService.createQuestion(createQuestionDto);
   }
 
-  @Get(':id')
-  async getQuestion(@Param('id') id: string) {
-    return this.questionsService.getQuestionById(id);
-  }
-
   @Put(':id')
   async updateQuestion(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
     return this.questionsService.updateQuestion(id, updateQuestionDto);
+  }
+
+  @Get(':id')
+  async getQuestion(@Param('id') id: string) {
+    return this.questionsService.getQuestionById(id);
   }
 
   @Delete(':id')
