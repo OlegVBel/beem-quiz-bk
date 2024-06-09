@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { VideoTest } from './schemas/video-tests.schema';
+import { VideoTest } from './schemas/video-test.schema';
 import { CreateVideoTestDto } from './dto/create-video-test.dto';
 import { UpdateVideoTestDto } from './dto/update-video-test.dto';
+import { Question } from '../questions/schemas/question.schema';
 
 @Injectable()
 export class VideoTestsService {
@@ -23,9 +24,15 @@ export class VideoTestsService {
     return this.videoTestModel.create(createVideoTestDto);
   }
 
-  async getVideoTestById(id: string): Promise<VideoTest> {
-    const videoTest = await this.videoTestModel.findByPk(id, {
-      include: [],
+  async getVideoTestById(id: number): Promise<VideoTest> {
+    const videoTest = await this.videoTestModel.findOne({
+      where: { Id: id },
+      include: {
+        model: Question,
+        attributes: ['Id', 'Time', 'Type', 'Question', 'Variants'],
+        required: false,
+        as: 'Questions',
+      },
     });
     if (!videoTest) {
       throw new NotFoundException('Video test not found');
@@ -33,13 +40,13 @@ export class VideoTestsService {
     return videoTest;
   }
 
-  async updateVideoTest(id: string, updateVideoTestDto: UpdateVideoTestDto): Promise<VideoTest> {
+  async updateVideoTest(id: number, updateVideoTestDto: UpdateVideoTestDto): Promise<VideoTest> {
     const videoTest = await this.getVideoTestById(id);
     await videoTest.update(updateVideoTestDto);
     return videoTest;
   }
 
-  async deleteVideoTest(id: string): Promise<void> {
+  async deleteVideoTest(id: number): Promise<void> {
     const videoTest = await this.getVideoTestById(id);
     videoTest.DeletedAt = new Date();
     videoTest.UpdatedAt = new Date();

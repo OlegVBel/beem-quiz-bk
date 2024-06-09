@@ -42,6 +42,7 @@ export class EmployeesService {
       throw new HttpException('Employee with this email not found', HttpStatus.NOT_FOUND);
     }
     return {
+      id: employee.Id,
       firstName: employee.FirstName,
       lastName: employee.LastName,
       notes: employee.Notes,

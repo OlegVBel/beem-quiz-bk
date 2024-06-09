@@ -1,5 +1,5 @@
 import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { VideoTest } from '../../video-tests/schemas/video-tests.schema';
+import { VideoTest } from '../../video-tests/schemas/video-test.schema';
 
 export enum QuestionType {
   MULTIPLE_CHOICE = 'multiple-choice',

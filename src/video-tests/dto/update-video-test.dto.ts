@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateVideoTestDto {
+export class UpdateVideoTestDto {
   @IsNumber()
   @IsNotEmpty()
   EmployeeId: number;

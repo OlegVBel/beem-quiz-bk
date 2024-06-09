@@ -11,10 +11,6 @@ export class QuestionsService {
     private questionModel: typeof Question,
   ) {}
 
-  async getQuestions(): Promise<Question[]> {
-    return this.questionModel.findAll();
-  }
-
   async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question> {
     return this.questionModel.create(createQuestionDto);
   }
@@ -35,6 +31,8 @@ export class QuestionsService {
 
   async deleteQuestion(id: string): Promise<void> {
     const question = await this.getQuestionById(id);
-    await question.destroy();
+    question.DeletedAt = new Date();
+    question.UpdatedAt = new Date();
+    await question.save();
   }
 }

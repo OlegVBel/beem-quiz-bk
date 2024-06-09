@@ -16,17 +16,17 @@ export class VideoTestsController {
   @UseGuards(JwtAuthGuard)
   @Get('my')
   async getMyVideoTests(@Req() req) {
-    const employeeId = req.user.id;
+    const employeeId = req.query.employeeId;
     return this.videoTestsService.getMyVideoTests(employeeId);
   }
 
   @Get(':id')
-  async getVideoTestById(@Param('id') id: string) {
+  async getVideoTestById(@Param('id') id: number) {
     return this.videoTestsService.getVideoTestById(id);
   }
 
   @Put(':id')
-  async updateVideoTest(@Param('id') id: string, @Body() updateVideoTestDto: UpdateVideoTestDto) {
+  async updateVideoTest(@Param('id') id: number, @Body() updateVideoTestDto: UpdateVideoTestDto) {
     return this.videoTestsService.updateVideoTest(id, updateVideoTestDto);
   }
 
@@ -36,7 +36,7 @@ export class VideoTestsController {
   }
 
   @Delete(':id')
-  async deleteVideoTest(@Param('id') id: string) {
+  async deleteVideoTest(@Param('id') id: number) {
     return this.videoTestsService.deleteVideoTest(id);
   }
 }

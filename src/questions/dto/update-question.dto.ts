@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { QuestionType } from '../schemas/questions.schema';
+import { QuestionType } from '../schemas/question.schema';
 
-export class CreateQuestionDto {
+export class UpdateQuestionDto {
   @IsNumber()
   @IsNotEmpty()
   VideoTestId: number;

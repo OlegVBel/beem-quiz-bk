@@ -7,11 +7,6 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
-  @Get()
-  async getQuestions() {
-    return this.questionsService.getQuestions();
-  }
-
   @Post()
   async createQuestion(@Body() createQuestionDto: CreateQuestionDto) {
     return this.questionsService.createQuestion(createQuestionDto);

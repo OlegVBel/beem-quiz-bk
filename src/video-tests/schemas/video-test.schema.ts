@@ -1,4 +1,17 @@
-import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import {
+  Column,
+  Table,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  PrimaryKey,
+  AutoIncrement,
+  Sequelize,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+} from 'sequelize-typescript';
 import { File } from '../../file/schemas/file.schema';
 import { Employee } from '../../employees/schemas/employee.schema';
 import { Question } from '../../questions/schemas/question.schema';
