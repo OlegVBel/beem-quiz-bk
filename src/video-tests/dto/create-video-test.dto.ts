@@ -1,0 +1,27 @@
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+
+export class CreateVideoTestDto {
+  @IsNumber()
+  @IsNotEmpty()
+  EmployeeId: number;
+
+  @IsString()
+  @IsOptional()
+  Name?: string;
+
+  @IsString()
+  @IsOptional()
+  Description?: string;
+
+  @IsString()
+  @IsOptional()
+  Options?: string;
+
+  @IsNumber()
+  @IsOptional()
+  VideoId?: number;
+
+  @IsNumber()
+  @IsOptional()
+  PreviewId?: number;
+}

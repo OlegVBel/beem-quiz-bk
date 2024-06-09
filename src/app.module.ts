@@ -7,6 +7,9 @@ import { DatabaseService } from './database/database.service';
 import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
 import { FileModule } from './file/file.module';
+import { VideoTestsModule } from './video-tests/video-tests.module';
+import { QuestionsModule } from './questions/questions.module';
+import { AnswersModule } from './answers/answers.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { FileModule } from './file/file.module';
     AuthModule,
     TokenModule,
     FileModule,
+    VideoTestsModule,
+    QuestionsModule,
+    AnswersModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseService],
