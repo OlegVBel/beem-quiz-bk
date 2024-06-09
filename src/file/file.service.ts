@@ -53,7 +53,8 @@ export class FileService {
         const mimetype = file.mimetype;
         const currentFileType = mimetype.split('/')[1];
         const newName = v4();
-        const type = file.originalname.split('.')[1];
+        const splitArray = file.originalname.split('.');
+        const type = splitArray[splitArray.length - 1];
 
         if (mimetype.includes('image')) {
           // eslint-disable-next-line eqeqeq
