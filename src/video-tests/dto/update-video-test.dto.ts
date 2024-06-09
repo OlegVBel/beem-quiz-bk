@@ -16,12 +16,4 @@ export class UpdateVideoTestDto {
   @IsString()
   @IsOptional()
   Options?: string;
-
-  @IsNumber()
-  @IsOptional()
-  VideoId?: number;
-
-  @IsNumber()
-  @IsOptional()
-  PreviewId?: number;
 }

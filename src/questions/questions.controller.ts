@@ -7,6 +7,11 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
+  @Get(':testId')
+  async getQuestionsByVideoTestId(@Param('testId') testId: string) {
+    return this.questionsService.getQuestionsByVideoTestId(testId);
+  }
+
   @Post()
   async createQuestion(@Body() createQuestionDto: CreateQuestionDto) {
     return this.questionsService.createQuestion(createQuestionDto);

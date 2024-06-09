@@ -11,6 +11,10 @@ export class QuestionsService {
     private questionModel: typeof Question,
   ) {}
 
+  async getQuestionsByVideoTestId(testId: string): Promise<Question[]> {
+    return this.questionModel.findAll({ where: { VideoTestId: testId } });
+  }
+
   async createQuestion(createQuestionDto: CreateQuestionDto): Promise<Question> {
     return this.questionModel.create(createQuestionDto);
   }

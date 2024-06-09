@@ -8,6 +8,11 @@ export enum QuestionType {
   NOTE = 'note',
 }
 
+export interface QuestionVariantType {
+  answer: string;
+  isCorrect: boolean;
+}
+
 @Table({ tableName: 'Questions', timestamps: true })
 export class Question extends Model<Question> {
   @PrimaryKey
