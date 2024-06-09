@@ -57,4 +57,19 @@ export class QuestionsService {
     const question = await this.getQuestionById(id);
     await question.destroy();
   }
+
+  async getQuestionsByIds(ids: number[]): Promise<any> {
+    const questions = await this.questionModel.findAll({ where: { Id: ids, DeletedAt: null } });
+    return questions.map(question => ({
+      Id: question.Id,
+      Time: question.Time,
+      Question: question.Question,
+      Type: question.Type,
+      Variants: question.Variants
+        ? JSON.parse(question.Variants).map((variant: { answer: string }) => ({
+            answer: variant.answer,
+          }))
+        : null,
+    }));
+  }
 }

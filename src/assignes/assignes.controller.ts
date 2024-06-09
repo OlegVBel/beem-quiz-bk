@@ -11,6 +11,11 @@ export class AssignesController {
     return this.assignesService.getAssignes(videoTestId);
   }
 
+  @Get('/video/:videoTestId/:employeeId')
+  async getEmployeeAssignedVideo(@Param('videoTestId') videoTestId: string, @Param('employeeId') employeeId: string) {
+    return this.assignesService.findEmployeeAssignedVideoTests(employeeId, videoTestId);
+  }
+
   @Post()
   async addAssigne(@Body() addAssigneDto: AddAssigneDto) {
     return this.assignesService.addAssigne(addAssigneDto);
@@ -31,7 +36,7 @@ export class AssignesController {
     return this.assignesService.markRead(id);
   }
 
-  @Get('/employee/:employeeId')
+  @Get(':employeeId/employee')
   async findEmployeeAssigne(@Param('employeeId') employeeId: string) {
     return this.assignesService.findEmployeeAssigne(employeeId);
   }

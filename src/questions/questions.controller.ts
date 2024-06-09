@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -6,6 +6,12 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 @Controller('questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
+
+  @Get('/batch')
+  async getQuestions(@Query('ids') ids: string) {
+    const idArray = ids.split(',').map(id => +id); // Перетворюємо ids на масив чисел
+    return this.questionsService.getQuestionsByIds(idArray);
+  }
 
   @Get(':testId')
   async getQuestionsByVideoTestId(@Param('testId') testId: string) {
