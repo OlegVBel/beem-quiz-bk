@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AssignesService } from './assignes.service';
 import { AddAssigneDto } from './dto/add-assigne.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('assignes')
 export class AssignesController {
   constructor(private readonly assignesService: AssignesService) {}

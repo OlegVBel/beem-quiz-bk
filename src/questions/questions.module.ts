@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, UseGuards } from '@nestjs/common';
 import { QuestionsController } from './questions.controller';
 import { QuestionsService } from './questions.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Question } from './schemas/question.schema';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Module({
   imports: [SequelizeModule.forFeature([Question])],
   exports: [SequelizeModule, QuestionsModule],

@@ -3,6 +3,7 @@ import { FileService } from './file.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('file')
 export class FileController {
   constructor(private readonly fileService: FileService) {}

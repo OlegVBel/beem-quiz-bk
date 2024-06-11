@@ -6,6 +6,7 @@ import { UpdateVideoTestDto } from './dto/update-video-test.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from '../file/file.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('video-tests')
 export class VideoTestsController {
   constructor(
