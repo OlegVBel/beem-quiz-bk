@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Question } from '../questions/schemas/question.schema';
 import { VideoTest } from '../video-tests/schemas/video-test.schema';
 import { Employee } from '../employees/schemas/employee.schema';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class AnswersService {
@@ -16,13 +17,64 @@ export class AnswersService {
   ) {}
 
   async saveAnswers(answers: SaveAnswerDto[]) {
+    // якщо відповідь на питання вже існує, то не ствоюємо нову відповідь
+    const existingAnswers = await this.answerModel.findAll({
+      where: {
+        EmployeeId: answers.map(answer => answer.EmployeeId),
+        QuestionId: answers.map(answer => answer.QuestionId),
+      },
+    });
+
+    const existingAnswersMap = new Map();
+    for (const existingAnswer of existingAnswers) {
+      existingAnswersMap.set(`${existingAnswer.EmployeeId}-${existingAnswer.QuestionId}`, existingAnswer);
+    }
+
+    const newAnswers = answers.filter(answer => !existingAnswersMap.has(`${answer.EmployeeId}-${answer.QuestionId}`));
     await this.answerModel.bulkCreate(
-      answers.map(answer => ({
+      newAnswers.map(answer => ({
         EmployeeId: answer.EmployeeId,
         QuestionId: answer.QuestionId,
         Answers: JSON.stringify(answer.Answers),
       })),
     );
+  }
+
+  async getTestResult(videoTestId: number, employeePassingTestId: number) {
+    const videoTest = await this.videoTestModel.findOne({
+      where: { DeletedAt: null, Id: videoTestId },
+      include: [
+        {
+          model: Question,
+          as: 'Questions',
+          where: { DeletedAt: null },
+        },
+      ],
+    });
+
+    const answers = await this.answerModel.findAll({
+      where: {
+        EmployeeId: employeePassingTestId,
+        QuestionId: videoTest.Questions.map(question => question.Id),
+      },
+    });
+
+    return {
+      TestName: videoTest.Name,
+      TestDescription: videoTest.Description,
+      Answers: answers.map(answer => {
+        const question = videoTest.Questions.find(question => question.Id === answer.QuestionId);
+        const variants = question.Variants ? JSON.parse(question.Variants) : null;
+
+        return {
+          Question: question,
+          Answers: JSON.parse(answer.Answers).map(answer => ({
+            Answer: answer,
+            IsCorrect: variants.find(variant => variant.answer === answer)?.isCorrect || false,
+          })),
+        };
+      }),
+    };
   }
 
   async getEmployeeTestsReport(employeeId: number) {
@@ -45,6 +97,7 @@ export class AnswersService {
     const answers = await this.answerModel.findAll({
       where: {
         QuestionId: questionsIds,
+        EmployeeId: { [Op.not]: employeeId },
       },
     });
 
@@ -60,6 +113,9 @@ export class AnswersService {
         const employeeReportAnswers = [];
         for (const employeeAnswer of employeeAnswers) {
           const question = employeeVideoTest.Questions.find(question => question.Id === employeeAnswer.QuestionId);
+          if (!question) {
+            continue;
+          }
           const variants = question.Variants ? JSON.parse(question.Variants) : null;
           const answers = JSON.parse(employeeAnswer.Answers).map(answer => ({
             Answer: answer,
@@ -83,6 +139,6 @@ export class AnswersService {
       }
     }
 
-    return report;
+    return report.filter(report => report.Answers.length > 0);
   }
 }

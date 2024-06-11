@@ -13,6 +13,11 @@ export class AnswersController {
     await this.answersService.saveAnswers(answers);
   }
 
+  @Get(':employeeId/:videoTestId/test-result')
+  async getTestResult(@Param('videoTestId') videoTestId: string, @Param('employeeId') employeeId: string) {
+    return this.answersService.getTestResult(+videoTestId, +employeeId);
+  }
+
   @Get(':employeeId/report')
   async getEmployeeTestScore(@Param('employeeId') employeeId: string) {
     return this.answersService.getEmployeeTestsReport(+employeeId);

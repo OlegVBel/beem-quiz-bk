@@ -44,26 +44,6 @@ export class AssignesService {
     await assigne.destroy();
   }
 
-  async markPassed(id: string): Promise<Assignes> {
-    const assigne = await this.assignesModel.findByPk(id);
-    if (!assigne) {
-      throw new NotFoundException(`Assigne with id ${id} not found`);
-    }
-    assigne.IsPassed = true;
-    await assigne.save();
-    return assigne;
-  }
-
-  async markRead(id: string): Promise<Assignes> {
-    const assigne = await this.assignesModel.findByPk(id);
-    if (!assigne) {
-      throw new NotFoundException(`Assigne with id ${id} not found`);
-    }
-    assigne.IsRead = true;
-    await assigne.save();
-    return assigne;
-  }
-
   async findEmployeeAssigne(employeeId: string): Promise<Assignes[]> {
     return this.assignesModel.findAll({
       where: { EmployeeId: employeeId, IsPassed: false },
@@ -110,5 +90,27 @@ export class AssignesService {
         Time: q.Time,
       })),
     };
+  }
+
+  async markAssignesAsRead(employeeId: string, videoTestId: string): Promise<void> {
+    const assigne = await this.assignesModel.findOne({
+      where: { EmployeeId: employeeId, VideoTestId: videoTestId },
+    });
+    if (!assigne) {
+      throw new NotFoundException(`Assigne for employee with id ${employeeId} not found`);
+    }
+    assigne.IsRead = true;
+    await assigne.save();
+  }
+
+  async markAssignesAsPassed(employeeId: string, videoTestId: string): Promise<void> {
+    const assigne = await this.assignesModel.findOne({
+      where: { EmployeeId: employeeId, VideoTestId: videoTestId },
+    });
+    if (!assigne) {
+      throw new NotFoundException(`Assigne for employee with id ${employeeId} not found`);
+    }
+    assigne.IsPassed = true;
+    await assigne.save();
   }
 }
