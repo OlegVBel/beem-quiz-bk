@@ -1,8 +1,9 @@
 import { Column, Table, CreatedAt, UpdatedAt, DeletedAt, PrimaryKey, AutoIncrement, Sequelize, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Employee } from '../../employees/schemas/employee.schema';
+import { Question } from '../../questions/schemas/question.schema';
 
 @Table({ tableName: 'Answers', timestamps: true })
-export class Question extends Model<Question> {
+export class Answer extends Model<Answer> {
   @PrimaryKey
   @AutoIncrement
   @Column

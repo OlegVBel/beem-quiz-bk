@@ -12,11 +12,11 @@ module.exports = {
         allowNull: true,
       },
       Description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT('medium'),
         allowNull: true,
       },
       Options: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT('medium'),
         allowNull: true,
       },
       EmployeeId: {
