@@ -21,7 +21,7 @@ export class AuthService {
   async registerEmployee(dto: CreateEmployeeDto) {
     const existUser = await this.employeeService.findByEmail(dto.email);
     if (existUser) {
-      throw new HttpException('Employee with this email already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Користувач з даною поштою вже існує', HttpStatus.BAD_REQUEST);
     }
     await this.employeeService.createEmployee(dto);
     const token = await this.tokenService.generateJwtToken(dto.email);
@@ -35,10 +35,10 @@ export class AuthService {
   async login(dto: LoginEmployeeDto): Promise<AuthUserResponseDto> {
     const employee = await this.employeeService.findByEmail(dto.email);
     if (!employee) {
-      throw new HttpException('Employee with this email not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Користувача з даною поштою не знайдено', HttpStatus.NOT_FOUND);
     }
     if (!(await comparePassword(dto.password, employee.password))) {
-      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Недійсний пароль', HttpStatus.BAD_REQUEST);
     }
     const token = await this.tokenService.generateJwtToken(dto.email);
     await this.employeeService.saveEmployeeToken(dto.email, token);
@@ -52,7 +52,7 @@ export class AuthService {
   async refreshToken(dto: RefreshTokenDto) {
     const employee = await this.employeeService.findByEmail(dto.email);
     if (!employee) {
-      throw new HttpException('Employee with this token not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Не знайдено користувача з вказаним токеном', HttpStatus.NOT_FOUND);
     }
     const newToken = await this.tokenService.generateJwtToken(employee.email);
     await this.employeeService.saveEmployeeToken(employee.email, newToken);
@@ -68,12 +68,12 @@ export class AuthService {
       const email = decode.user;
       const employee = await this.employeeService.findByEmail(email);
       if (!employee) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Не знайдено даного користувача', HttpStatus.NOT_FOUND);
       }
       delete employee.password;
       return employee;
     } catch (error) {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Невалідний токен', HttpStatus.UNAUTHORIZED);
     }
   }
 }

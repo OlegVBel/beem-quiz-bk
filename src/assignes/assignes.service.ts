@@ -31,7 +31,7 @@ export class AssignesService {
       where: { EmployeeId: addAssigneDto.EmployeeId, VideoTestId: addAssigneDto.VideoTestId },
     });
     if (assigne) {
-      throw new Error('Employee already assigned to this video test');
+      throw new Error('Користувача вже призначено до даного відео');
     }
     return this.assignesModel.create(addAssigneDto);
   }
@@ -39,7 +39,7 @@ export class AssignesService {
   async deleteAssigne(id: string): Promise<void> {
     const assigne = await this.assignesModel.findByPk(id);
     if (!assigne) {
-      throw new NotFoundException(`Assigne with id ${id} not found`);
+      throw new NotFoundException('Не знайдено призначень');
     }
     await assigne.destroy();
   }
@@ -76,7 +76,7 @@ export class AssignesService {
       ],
     });
     if (!assigne) {
-      throw new NotFoundException(`Assigne for employee with id ${employeeId} not found`);
+      throw new NotFoundException('Не знайдено призначень для користувача');
     }
     const questions = await this.questionsModel.findAll({
       where: { VideoTestId: assigne.VideoTest.Id, DeletedAt: null },
@@ -97,7 +97,7 @@ export class AssignesService {
       where: { EmployeeId: employeeId, VideoTestId: videoTestId },
     });
     if (!assigne) {
-      throw new NotFoundException(`Assigne for employee with id ${employeeId} not found`);
+      throw new NotFoundException('Не знайдено призначень для користувача');
     }
     assigne.IsRead = true;
     await assigne.save();
@@ -108,7 +108,7 @@ export class AssignesService {
       where: { EmployeeId: employeeId, VideoTestId: videoTestId },
     });
     if (!assigne) {
-      throw new NotFoundException(`Assigne for employee with id ${employeeId} not found`);
+      throw new NotFoundException('Не знайдено призначень для користувача');
     }
     assigne.IsPassed = true;
     await assigne.save();

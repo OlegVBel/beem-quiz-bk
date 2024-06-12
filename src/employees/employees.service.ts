@@ -39,7 +39,7 @@ export class EmployeesService {
       },
     });
     if (!employee) {
-      throw new HttpException('Employee with this email not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Користувача з даною поштою не знайдено', HttpStatus.NOT_FOUND);
     }
     return {
       id: employee.Id,

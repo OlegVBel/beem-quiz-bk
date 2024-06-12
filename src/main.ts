@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'assets'));
 
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000', // Ваш фронтенд URL
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,

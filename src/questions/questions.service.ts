@@ -4,12 +4,13 @@ import { Question } from './schemas/question.schema';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionItem } from './response/question-item';
+import { Answer } from '../answers/schemas/questions.schema';
 
 @Injectable()
 export class QuestionsService {
   constructor(
-    @InjectModel(Question)
-    private questionModel: typeof Question,
+    @InjectModel(Question) private questionModel: typeof Question,
+    @InjectModel(Answer) private answerModel: typeof Answer,
   ) {}
 
   async getQuestionsByVideoTestId(testId: string): Promise<QuestionItem[]> {
@@ -36,7 +37,7 @@ export class QuestionsService {
   async getQuestionById(id: string): Promise<Question> {
     const question = await this.questionModel.findByPk(id);
     if (!question) {
-      throw new NotFoundException('Question not found');
+      throw new NotFoundException('Запитання не знайдено');
     }
     return question;
   }
@@ -55,6 +56,11 @@ export class QuestionsService {
 
   async deleteQuestion(id: string): Promise<void> {
     const question = await this.getQuestionById(id);
+    // перевірити чи є відповіді на це питання
+    const answers = await this.answerModel.findAll({ where: { QuestionId: id } });
+    if (answers.length) {
+      throw new Error('На дане питання вже були дані відповіді. Неможливо видалити питання.');
+    }
     await question.destroy();
   }
 

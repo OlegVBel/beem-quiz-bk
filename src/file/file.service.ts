@@ -29,7 +29,7 @@ export class FileService {
         try {
           await writeFile(join(uploadFolder, file.cipherName), file.buffer);
         } catch (e) {
-          throw new InternalServerErrorException('Error while saving file');
+          throw new InternalServerErrorException('Помилка читання файлу при збереженні');
         }
 
         return {

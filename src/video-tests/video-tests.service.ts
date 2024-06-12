@@ -71,7 +71,7 @@ export class VideoTestsService {
       ],
     });
     if (!videoTest) {
-      throw new NotFoundException('Video test not found');
+      throw new NotFoundException('Відео-тест незнайдено');
     }
     return {
       Id: videoTest.Id,
